@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPED.Infrastructure", "MPED.Infrastructure\MPED.Infrastructure.csproj", "{A051BC8C-A381-4D0E-8010-3DD0F34E1ED1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPED.Infrastructure.Shared", "MPED.Infrastructure.Shared\MPED.Infrastructure.Shared.csproj", "{BD1AE587-BDAE-49A1-A941-DC05BC9EF5A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{A051BC8C-A381-4D0E-8010-3DD0F34E1ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A051BC8C-A381-4D0E-8010-3DD0F34E1ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A051BC8C-A381-4D0E-8010-3DD0F34E1ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1AE587-BDAE-49A1-A941-DC05BC9EF5A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1AE587-BDAE-49A1-A941-DC05BC9EF5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1AE587-BDAE-49A1-A941-DC05BC9EF5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1AE587-BDAE-49A1-A941-DC05BC9EF5A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +51,7 @@ Global
 		{8DAC8BAD-89EB-4821-AEFE-A98F6D6AC978} = {4C909D3D-ABCF-4174-94A0-60E024C2A960}
 		{9C9D5B77-3447-4FE4-9FF4-100F3C578A27} = {4C909D3D-ABCF-4174-94A0-60E024C2A960}
 		{A051BC8C-A381-4D0E-8010-3DD0F34E1ED1} = {9F7F36D3-372D-47F5-A844-620C2C7E579F}
+		{BD1AE587-BDAE-49A1-A941-DC05BC9EF5A0} = {9F7F36D3-372D-47F5-A844-620C2C7E579F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E9CFFD2-34BF-4187-A8C7-ADC39FF06407}
