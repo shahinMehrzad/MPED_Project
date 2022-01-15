@@ -1,28 +1,78 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using MPED.Application.Interfaces.Shared;
+using MPED.Domain;
+using MPED.Domain.Entities;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MPED.Infrastructure.DbContexts
 {
-    public class ApplicationDbContext : IApplicationDbContext
+    public class ApplicationDbContext : DbContext
     {
-        public IDbConnection Connection => throw new NotImplementedException();
+        private readonly IAuthenticatedUserService _authenticatedUser;
+        private readonly DateTime _dateTime;
 
-        public bool HasChanges => throw new NotImplementedException();
-
-        public EntityEntry Entry(object entity)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IAuthenticatedUserService authenticatedUser) : base(options)
         {
-            throw new NotImplementedException();
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            _authenticatedUser = authenticatedUser;
+            _dateTime = DateTime.UtcNow;
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        #region DbSet
+        public DbSet<Audit> Audits { get; set; }
+        #endregion
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            throw new NotImplementedException();
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>().ToList())
+            {
+                var entityType = entry.Entity.GetType().Name;
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedOn = _dateTime;
+                        entry.Entity.CreatedBy = _authenticatedUser.UserId;
+                        try
+                        {
+                            await Audits.AddAsync(new Audit
+                            {
+                                Type = "Added",
+                                DateTime = _dateTime,
+                                UserId = _authenticatedUser.UserId,
+                                TableName = entityType,
+                                Values = JsonConvert.SerializeObject(entry.CurrentValues),
+                                PrimaryKey = JsonConvert.SerializeObject(entry.Entity.Id)
+                            });
+                        }
+                        catch { }
+
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.LastModifiedOn = _dateTime;
+                        entry.Entity.LastModifiedBy = _authenticatedUser.UserId;
+                        try
+                        {
+                            await Audits.AddAsync(new Audit
+                            {
+                                Type = "Modified",
+                                DateTime = _dateTime,
+                                UserId = _authenticatedUser.UserId,
+                                TableName = entityType,
+                                Values = JsonConvert.SerializeObject(entry.CurrentValues),
+                                PrimaryKey = JsonConvert.SerializeObject(entry.Entity.Id)
+                            });
+                        }
+                        catch { }
+                        break;
+                }
+            }
+            return await base.SaveChangesAsync(cancellationToken);
         }
+        
     }
 }

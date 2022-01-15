@@ -3,7 +3,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MPED.Infrastructure.DbContexts
+namespace MPED.Application.Interfaces.Contexts
 {
     public interface IApplicationDbContext
     {
