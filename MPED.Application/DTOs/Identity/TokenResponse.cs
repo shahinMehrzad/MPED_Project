@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace MPED.Application.DTOs.Identity
@@ -13,6 +14,7 @@ namespace MPED.Application.DTOs.Identity
         public string JWToken { get; set; }
         public DateTime IssuedOn { get; set; }
         public DateTime ExpiresOn { get; set; }
+        public List<string> Roles { get; set; }
 
         [JsonIgnore]
         public string RefreshToken { get; set; }
