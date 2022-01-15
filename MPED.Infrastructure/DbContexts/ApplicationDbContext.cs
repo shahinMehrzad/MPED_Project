@@ -24,7 +24,7 @@ namespace MPED.Infrastructure.DbContexts
         }
 
         #region DbSet
-        public DbSet<Audit> Audits { get; set; }
+        public DbSet<Audit> AuditLogs { get; set; }
         #endregion
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -39,7 +39,7 @@ namespace MPED.Infrastructure.DbContexts
                         entry.Entity.CreatedBy = _authenticatedUser.UserId;
                         try
                         {
-                            await Audits.AddAsync(new Audit
+                            await AuditLogs.AddAsync(new Audit
                             {
                                 Type = "Added",
                                 DateTime = _dateTime,
@@ -57,7 +57,7 @@ namespace MPED.Infrastructure.DbContexts
                         entry.Entity.LastModifiedBy = _authenticatedUser.UserId;
                         try
                         {
-                            await Audits.AddAsync(new Audit
+                            await AuditLogs.AddAsync(new Audit
                             {
                                 Type = "Modified",
                                 DateTime = _dateTime,
