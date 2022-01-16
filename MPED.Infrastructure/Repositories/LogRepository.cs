@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MPED.Application.DTOs.Logs;
 using MPED.Application.Interfaces.Repositories;
 using MPED.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -1,12 +1,10 @@
 ﻿using AspNetCoreHero.Results;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using MPED.Application.Configurations;
-using MPED.Application.DTOs;
 using MPED.Application.DTOs.Identity;
+using MPED.Application.DTOs.Settings;
 using MPED.Application.Enums.Identity;
 using MPED.Application.Interfaces;
 using System;
@@ -24,11 +22,11 @@ namespace MPED.Infrastructure.Identity.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly JWTConfiguration _jwtSettings;
+        private readonly JWTSettings _jwtSettings;
         private readonly IConfiguration _config;
 
         public IdentityService(UserManager<ApplicationUser> userManager,
-            IOptions<JWTConfiguration> jwtSettings,
+            IOptions<JWTSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration config)
         {
@@ -97,6 +95,10 @@ namespace MPED.Infrastructure.Identity.Services
             //Check Email validation
             //Check password rules (Example : Min 8 characters and ...)
             #region Model Validation
+            if (request.Password != request.ConfirmPassword)
+            {
+                return Result<string>.Fail("Password does not match, type again!");
+            }
             #endregion
 
             var userWithSameUserName = await _userManager.FindByEmailAsync(request.Email);
@@ -110,7 +112,8 @@ namespace MPED.Infrastructure.Identity.Services
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 UserName = request.Email,
-                CreateDate = DateTime.Now
+                CreateDate = DateTime.Now,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

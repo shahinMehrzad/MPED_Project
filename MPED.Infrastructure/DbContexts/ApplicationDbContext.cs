@@ -25,6 +25,7 @@ namespace MPED.Infrastructure.DbContexts
 
         #region DbSet
         public DbSet<Audit> AuditLogs { get; set; }
+        public DbSet<Rooms> Rooms { get; set; }
         #endregion
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

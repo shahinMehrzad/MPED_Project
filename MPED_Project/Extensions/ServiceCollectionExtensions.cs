@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -153,14 +152,14 @@ namespace MPED_Project.Extensions
                             context.HandleResponse();
                             context.Response.StatusCode = 401;
                             context.Response.ContentType = "application/json";
-                            var result = JsonConvert.SerializeObject(new CustomizeResult() { succeeded = false, message = "Yetkili değilsiniz", failed = true });
+                            var result = JsonConvert.SerializeObject(new CustomizeResult() { succeeded = false, message = "You are not authorized.", failed = true });
                             return context.Response.WriteAsync(result);
                         },
                         OnForbidden = context =>
                         {
                             context.Response.StatusCode = 403;
                             context.Response.ContentType = "application/json";
-                            var result = JsonConvert.SerializeObject(new CustomizeResult() { succeeded = false, message = "Bu kaynağa erişim yetkiniz yok", failed = true });
+                            var result = JsonConvert.SerializeObject(new CustomizeResult() { succeeded = false, message = "You are not authorized to access this resource", failed = true });
                             //var result = JsonConvert.SerializeObject(Result<string>.Fail("Bu kaynağa erişim yetkiniz yok"));
                             return context.Response.WriteAsync(result);
                         },

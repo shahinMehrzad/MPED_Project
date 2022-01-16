@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MPED.Application.Extensions;
+using MPED.Infrastructure.DbContexts;
 using MPED.Infrastructure.Extensions;
 using MPED_Project.Extensions;
 using MPED_Project.Middlewares;
@@ -66,9 +68,7 @@ namespace MPED_Project
             app.UseHttpsRedirection();
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseRouting();
-
-
-
+                        
             app.UseAuthentication();
             app.UseAuthorization();
 
