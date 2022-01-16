@@ -10,5 +10,9 @@ namespace MPED.Application.Interfaces.Repositories
     public interface IRoomsRepository
     {
         Task<List<Rooms>> GetListAsync();
+        Task<Rooms> GetByIdAsync(int roomId);
+        Task<int> InsertAsync(Rooms room);
+        Task UpdateAsync(Rooms room);
+        Task DeleteAsync(Rooms room);
     }
 }

@@ -15,9 +15,30 @@ namespace MPED.Infrastructure.Repositories
             _repository = repository;
         }
 
+        public async Task DeleteAsync(Rooms room)
+        {
+            await _repository.DeleteAsync(room);
+        }
+
+        public async Task<Rooms> GetByIdAsync(int roomId)
+        {
+            return await _repository.GetByIdAsync(roomId);
+        }
+
         public async Task<List<Rooms>> GetListAsync()
         {
             return await _repository.Entities.ToListAsync();
+        }
+
+        public async Task<int> InsertAsync(Rooms room)
+        {
+            await _repository.AddAsync(room);
+            return room.Id;
+        }
+
+        public async Task UpdateAsync(Rooms room)
+        {
+            await _repository.UpdateAsync(room);
         }
     }
 }
