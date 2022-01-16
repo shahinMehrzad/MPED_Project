@@ -1,16 +1,17 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MPED.Application.Extensions;
+using MPED.Infrastructure.Extensions;
+using MPED_Project.Extensions;
+using MPED_Project.Middlewares;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MPED_Project
 {
@@ -18,20 +19,40 @@ namespace MPED_Project
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddApplicationLayer();
+            services.AddContextInfrastructure(_configuration);
+            services.AddPersistenceContexts(_configuration);
+            services.AddRepositories();
+            services.AddSharedInfrastructure(_configuration);
+            services.AddEssentials();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddCors(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MPED_Project", Version = "v1" });
+                options.AddPolicy("AllowAllHeaders",
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin()
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod();
+                      });
             });
+            services.AddMvc(o =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                o.Filters.Add(new AuthorizeFilter(policy));
+            });
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromMinutes(int.Parse(_configuration.GetSection("EmailDurationInMinutes").Value)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,15 +61,18 @@ namespace MPED_Project
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MPED_Project v1"));
             }
-
+            app.ConfigureSwagger();
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseRouting();
 
+
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors("AllowAllHeaders");
 
             app.UseEndpoints(endpoints =>
             {

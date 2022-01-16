@@ -18,8 +18,4 @@
     <ProjectReference Include="..\MPED.Domain\MPED.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Identity\Seeds\" />
-  </ItemGroup>
-
 </Project>

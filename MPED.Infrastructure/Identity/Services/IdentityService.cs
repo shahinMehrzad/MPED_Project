@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AspNetCoreHero.Results;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -142,7 +143,7 @@ namespace MPED.Infrastructure.Identity.Services
                 }
                 else
                 {
-                    return Result<string>.Fail($"E-postanız veya eski şifreniz yanlışdır.");
+                    return Result<string>.Fail($"Your email or old password is incorrect.");
                 }
             }
             return Result<string>.Fail($"Error occured while reseting the password.");
