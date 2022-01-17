@@ -1,4 +1,7 @@
-﻿namespace MPED.Domain.Entities
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MPED.Domain.Entities
 {
     public class Rooms : BaseEntity
     {
@@ -12,5 +15,7 @@
         public int TwinBed { get; set; }
         public int SingleBed { get; set; }
         public int ExtraSingleBed { get; set; }
+        [NotMapped]
+        public virtual List<BookingRoom> BookingRooms { get; set; }
     }
 }

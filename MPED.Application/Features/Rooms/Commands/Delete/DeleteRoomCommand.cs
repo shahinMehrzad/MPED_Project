@@ -24,7 +24,9 @@ namespace MPED.Application.Features.Rooms.Commands.Delete
             public async Task<Result<int>> Handle(DeleteRoomCommand command, CancellationToken cancellationToken)
             {
                 var room = await _roomsRepository.GetByIdAsync(command.Id);
-                await _roomsRepository.DeleteAsync(room);
+                room.IsDeleted = true;
+                room.DeletionTime = System.DateTime.Now;
+                await _roomsRepository.UpdateAsync(room);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(room.Id);
             }

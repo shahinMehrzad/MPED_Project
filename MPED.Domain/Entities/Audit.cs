@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace MPED.Domain.Entities
 {
-    public class Audit
+    public class Audit : BaseEntity
     {
-        public int Id { get; set; }
-
         public string UserId { get; set; }
 
         public string Type { get; set; }

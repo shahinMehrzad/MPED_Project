@@ -20,6 +20,7 @@ namespace MPED.Infrastructure.Extensions
             services.AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
 
             services.AddTransient<IRoomsRepository, RoomsRepository>();
+            services.AddTransient<IBookingRoomRepository, BookingRoomRepository>();
             
             services.AddTransient<ILogRepository, LogRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();

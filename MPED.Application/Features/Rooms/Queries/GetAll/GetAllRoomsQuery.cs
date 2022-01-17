@@ -32,7 +32,7 @@ namespace MPED.Application.Features.Rooms.Queries.GetAll
         public async Task<Result<List<GetAllRoomsResponse>>> Handle(GetAllRoomsQuery request, CancellationToken cancellationToken)
         {
             var roomsList = await _roomsRepository.GetListAsync();
-            var mappedRooms = _mapper.Map<List<GetAllRoomsResponse>>(roomsList.Where(x => !x.IsDeleted));
+            var mappedRooms = _mapper.Map<List<GetAllRoomsResponse>>(roomsList);
             return Result<List<GetAllRoomsResponse>>.Success(mappedRooms);
         }
     }
