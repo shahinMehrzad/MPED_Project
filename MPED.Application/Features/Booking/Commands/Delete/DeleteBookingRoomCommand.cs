@@ -28,7 +28,7 @@ namespace MPED.Application.Features.Booking.Commands.Delete
                 bookingRoom.DeletionTime = System.DateTime.Now;
                 await _bookingRoomRepository.UpdateAsync(bookingRoom);
                 await _unitOfWork.Commit(cancellationToken);
-                return Result<int>.Success(bookingRoom.Id);
+                return Result<int>.Success("Your reservation has been successfully canceled.");
             }
         }
     }

@@ -40,7 +40,7 @@ namespace MPED.Application.Features.Rooms.Commands.Create
             var room = _mapper.Map<Domain.Entities.Rooms>(request);
             await _roomsRepository.InsertAsync(room);
             await _unitOfWork.Commit(cancellationToken);
-            return Result<int>.Success(room.Id);
+            return Result<int>.Success("The room has been successfully saved. The roomId is : " + room.Id);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace MPED.Application.Features.Rooms.Commands.Delete
                 room.DeletionTime = System.DateTime.Now;
                 await _roomsRepository.UpdateAsync(room);
                 await _unitOfWork.Commit(cancellationToken);
-                return Result<int>.Success(room.Id);
+                return Result<int>.Success("The room has been successfully deleted.");
             }
         }
     }

@@ -53,7 +53,7 @@ namespace MPED.Application.Features.Rooms.Commands.Update
                     room.ExtraSingleBed = command.ExtraSingleBed;
                     await _roomsRepository.UpdateAsync(room);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(room.Id);
+                    return Result<int>.Success("The room has been successfully updated.");
                 }
             }
         }

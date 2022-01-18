@@ -45,7 +45,7 @@ namespace MPED.Application.Features.Booking.Commands.Create
                 var bookingRoom = _mapper.Map<Domain.Entities.BookingRoom>(request);
                 await _bookingRoomRepository.InsertAsync(bookingRoom);
                 await _unitOfWork.Commit(cancellationToken);
-                return Result<int>.Success(bookingRoom.Id);
+                return Result<int>.Success("Your reservation has been successfully saved and your reservation ID is : " +  bookingRoom.Id);
             }
         }
     }
